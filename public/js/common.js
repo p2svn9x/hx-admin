@@ -19,15 +19,15 @@ function sendRequest(url, params, callback, errorcallback) {
 
 function errorRequest(readyState,status){
     $("#spinner").hide();
-    $('#logaction').html("");
+    $("#validate-text").css("color","red");
     if (readyState == 4 && status == 200) {
-        $("#resultsearch").html("Không kết nối được api");
+        $("#validate-text").html("Không kết nối được api");
     }
     if (readyState == 4 && status == 404) {
-        $("#resultsearch").html("Không tồn tại controller");
+        $("#validate-text").html("Không tồn tại controller");
     }
     if (readyState == 0 && status == 0) {
-        $("#resultsearch").html("Hệ thống quá tải vui lòng đợi");
+        $("#validate-text").html("Hệ thống gián đoán vui lòng đợi");
     }
 }
 
@@ -36,11 +36,11 @@ function nullRequest(){
     $("#resultsearch").html("Không tìm thấy kết quả");
     $('#logaction').html("");
 }
-function errorThongBao(){
+function errorThongBao(txt){
     $("#spinner").hide();
-    $("#error-popup").modal("show");
-    $("#status-error").html("Hệ thống quá tải .Vui lòng thử lại !");
-    $("#status-error").css("color","red");
+    $("#validate-text").css("color","red");
+    $("#validate-text").html(txt);
+
 }
 function commaSeparateNumber(val) {
     while (/(\d+)(\d{3})/.test(val.toString())) {

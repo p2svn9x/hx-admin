@@ -28,51 +28,50 @@ Class Login extends MY_controller
     {
         $username= $this->input->post('username');
         $password= $this->input->post('password');
-        $odpinfo = $this->get_data_curl($this->config->item('api_backend').'?c=701&un='.$username.'&pw='.$password);
+        $odpinfo = $this->get_data_curl($this->config->item('api_backend').'5&m='.$username.'&pw='.$password.'&ty=ad');
 
         $data = json_decode($odpinfo);
 
 
-        if($data->success == true){
+        if($data->errorCode == 0){
             $nickname = json_decode(base64_decode($data->sessionKey))->nickname;
 			 $access = $data->accessToken;
+
            if($this->infouser($nickname,$access) == true){
 
                echo json_encode("1");
+               $this->log_login_admin($username, "Thành công", 0);
 
            }else{
 
                echo json_encode("2");
+               $this->log_login_admin($username, "Tài khoản chưa được phân quyền", 1);
            }
 
         }else{
-            if($data->errorCode == 1001){
-
+            if($data->errorCode == 11){
+                $this->log_login_admin($username, "Số điện thoại chưa được đăng ký", 1);
                 echo json_encode("3");
             }
-            if($data->errorCode == 1005){
-
+            if($data->errorCode == 15){
+                $this->log_login_admin($username, "AccessToken hết hạn", 1);
                 echo json_encode("4");
             }
-            if($data->errorCode == 1007){
-
+            if($data->errorCode == 16){
+                $this->log_login_admin($username, "Mật khẩu không chính xác", 1);
                 echo json_encode("5");
             }
-            if($data->errorCode == 1109){
-
+            if($data->errorCode == 17){
+                $this->log_login_admin($username, "Yêu cầu cập nhật số điện thoại", 1);
                 echo json_encode("6");
             }
-            if($data->errorCode == 1114){
-
+            if($data->errorCode == 101){
+                $this->log_login_admin($username, "Tài khoản bị khóa đăng nhập", 1);
                 echo json_encode("7");
             }
-            if($data->errorCode == 2001){
-
+            if($data->errorCode == 1){
+                $this->log_login_admin($username, "Hệ thống gián đoạn", 1);
                 echo json_encode("8");
-            }
-            if($data->errorCode == 1012){
-
-                echo json_encode("9");
             }
 
         }
