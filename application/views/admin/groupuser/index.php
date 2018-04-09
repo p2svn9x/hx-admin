@@ -17,7 +17,7 @@
                     Danh sách nhóm người dùng
                 </h1>
                 <ol class="breadcrumb">
-                    <a href="<?php echo admin_url('groupuser/add') ?>" class="btn btn-block btn-success">Thêm mới</a>
+                    <a href="<?php echo admin_url('groupuser/add') ?>" class="btn btn-block bg-purple">Thêm mới</a>
                 </ol>
             </section>
             <section class="content">

@@ -93,7 +93,7 @@ Class Admin extends MY_Controller
     }
 function addadminajax(){
         $nickname = urlencode($this->input->post('nickname'));
-        $datainfo = file_get_contents($this->config->item('api_backend').'?c=103&nn='.$nickname.'&st=100');
+        $datainfo = $this->curl->simple_get($this->config->item('api_backend').'2004&m='.$nickname.'&ty=1');
         if(isset($datainfo)) {
             echo $datainfo;
         }else{
@@ -102,19 +102,9 @@ function addadminajax(){
 
     }
     function getinfoajax(){
-         $admin_login = $this->session->userdata('user_id_login');
-        $admin_info = $this->admin_model->get_info($admin_login);
-        $accesstoken = $this->session->userdata('accessToken');
+
         $nickname = urlencode($this->input->post('nickname'));
-       // var_dump(base64_encode($accesstoken.'|'.$admin_info->FullName.'|'.'fU3z7wP0IeFOPntKXcRifUDTGbV8AXyI'));
-        $options = array(
-            'http'=>array(
-                'method'=>"GET",
-                'header'=>"Authorization:".base64_encode($accesstoken[0].'|'.$accesstoken[1].'|'.'fU3z7wP0IeFOPntKXcRifUDTGbV8AXyI')
-            )
-        );
-        $context = stream_context_create($options);
-        $datainfo = file_get_contents($this->config->item('api_backend').'?c=102&nn='.$nickname,false, $context);
+        $datainfo = $this->curl->simple_get($this->config->item('api_backend').'2005&m='.$nickname.'&tysh=0&vl=&tys=&p=1');
         if(isset($datainfo)) {
 
             echo $datainfo;
@@ -269,7 +259,7 @@ function addadminajax(){
             $this->admin_model->delete($id);
             $where = array("User_ID"=>$id);
             $this->userrole_model->del_rule($where);
-             file_get_contents($this->config->item('api_backend').'?c=103&nn='.$nickname.'&st=0');
+            $this->curl->simple_get($this->config->item('api_backend').'2004&m='.$nickname.'&ty=0');
             $this->session->set_flashdata('message', 'Xóa dữ liệu thành công');
         }
         redirect(admin_url('admin'));

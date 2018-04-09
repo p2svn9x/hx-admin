@@ -24,26 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost:8080/hx-admin';
-//$config['api_url'] = "http://api.vinplay.com:8081/api";
-$config['api_url'] = "http://104.196.193.134/api?cd=";
-//$config['api_url1'] = "http://104.199.233.155:8081/api";
-//$config['api_url2'] = "http://104.199.233.155:9081/api";
-//$config['api_url3'] = "http://104.155.193.130:8081/api";
-//$config['api_url4'] = "http://104.155.193.130:9081/api";
-//$config['api_backend'] = "http://10.140.0.2:8082/api_backend";
-//$config['api_backend'] = "http://192.168.0.251:8082/api_backend";
-//$config['api_backend'] = "http://backend-api.vinplay.com/api_backend";
-//$config['api_backend2'] = "http://api2.vinplay.com:8082/api_backend";
-//$config['api_backend'] = "http://104.199.239.38:8082/api_backend";
-//$config['api_backend2'] = "http://104.199.239.38:8082/api_backend";
-$config['api_backend'] = "http://104.196.193.134/api?cd=";
-$config['api_backend2'] = "http://104.196.193.134/api?cd=";
-//$config['api_backend'] = "http://210.211.101.230:8082/api_backend";
-//$config['api_backend2'] = "http://210.211.101.230:8082/api_backend";
-//$config['api_backend'] = "http://192.168.0.142:8082/api_backend";
-//$config['api_backend2'] = "http://192.168.0.142:8082/api_backend";
-//$config['api_backend'] = "http://104.155.195.145:8082/api_backend";
-//$config['api_backend2'] = "http://104.155.195.145:8082/api_backend";
+$config['api_url'] = "http://104.196.193.134:9009/api?cd=";
+$config['api_backend'] = "http://104.196.193.134:9009/backend?cd=";
+$config['api_backend2'] = "http://104.196.193.134:9009/backend?cd=";
 
 
 /*

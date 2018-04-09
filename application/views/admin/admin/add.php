@@ -11,24 +11,20 @@
 
                 <div class="col-md-12">
                     <div class="box box-body">
-
-                        <!-- /.box-header -->
-                        <!-- form start -->
-                        <label class="control-label" for="inputError" id="errorstatus" style="color: red"></label>
-
+                        <label class="control-label" for="inputError" id="validate-text"></label>
                         <form id="form" class="form" enctype="multipart/form-data" method="post" action="">
                             <div class="box-body">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-3 col-md-2">
-                                            <label for="exampleInputEmail1">Nickname</label>
+                                            <label for="exampleInputEmail1">Số điện thoại</label>
                                         </div>
                                         <div class="col-xs-6 col-md-4">
                                             <input type="text" class="form-control" id="param_name"
-                                                   placeholder="Nhập Nickname">
+                                                   placeholder="Nhập số điện thoại">
                                         </div>
                                         <div class="col-xs-3 col-md-6">
-                                            <input type="button" value="Tìm kiếm" name="submit" class="btn btn-success"
+                                            <input type="button" value="Tìm kiếm" name="submit" class="btn bg-purple"
                                                    id="searchnickname">
                                         </div>
 
@@ -53,7 +49,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-3 col-md-2">
-                                            <label for="inputEmail3" class="control-label">Tên đăng nhập:</label>
+                                            <label for="inputEmail3" class="control-label">Số điện thoại:</label>
                                         </div>
                                         <div class="col-xs-6 col-md-4">
                                             <label for="inputEmail3" class="control-label"
@@ -66,7 +62,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-xs-3 col-md-2"><label class="control-label">Bộ phận:</label></div>
+                                        <div class="col-xs-3 col-md-2"><label class="control-label">Bộ phận:</label>
+                                        </div>
 
 
                                         <div class="col-xs-6 col-md-4">
@@ -89,7 +86,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-xs-3 col-md-2"><label for="inputEmail3">Phân quyền:</label></div>
+                                        <div class="col-xs-3 col-md-2"><label for="inputEmail3">Phân quyền:</label>
+                                        </div>
 
                                         <div class="col-xs-6 col-md-4">
                                             <select for="inputEmail3" id="selectrole" class="form-control">
@@ -106,11 +104,12 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-3 col-md-2"><label for="inputEmail3"
-                                                                     class="control-label">Setadmin:</label></div>
+                                                                              class="control-label">Setadmin:</label>
+                                        </div>
 
 
                                         <div class="col-xs-6 col-md-4">
-                                            <input type="button" value="Thêm mới" class="btn btn-success" id="setadmin">
+                                            <input type="button" value="Thêm mới" class="btn bg-purple" id="setadmin">
 
                                         </div>
 
@@ -134,9 +133,10 @@
     $("#searchnickname").click(function () {
         if ($("#param_name").val() == "") {
             $("#info_user").css("display", "none");
-            $("#errorstatus").html("Bạn chưa nhập nick name");
+            errorThongBao("Bạn chưa nhập số điện thoại");
             return false;
         }
+        $("#spinner").show();
         $.ajax({
             type: "POST",
             url: "<?php echo admin_url('admin/getinfoajax')?>",
@@ -145,29 +145,35 @@
             },
             dataType: 'json',
             success: function (result) {
-                if (result.user != null) {
+                $("#spinner").hide();
+                if (result[0] != null) {
                     $("#info_user").css("display", "block");
-                    $("#errorstatus").html("");
-                    $("#lblusername").html(result.user.username);
-                    $("#lblnickname").html(result.user.nickname);
-                    $("#username").val(result.user.username);
-                    $("#nickname").val(result.user.nickname);
-                    $("#iduser").val(result.user.id);
+                    $("#validate-text").html("");
+                    $("#lblusername").html(result[0].mobile);
+                    $("#username").val(result[0].mobile);
+                    $("#nickname").val(result[0].mobile);
+                    $("#iduser").val(result[0].id);
                     $("#setadmin").val("Thêm mới");
-                } else if (result.user == null) {
-                    $("#errorstatus").html("Nick name đã được đăng ký hoặc không tồn tại");
+                } else {
+                    errorThongBao("Số điện thoại đã được đăng ký hoặc không tồn tại");
                     $("#info_user").css("display", "none")
                 }
-            }
+            }, error: function (xhr) {
+                console.log(xhr);
+                errorRequest(xhr.readyState, xhr.status,xhr.responseText);
+
+            }, timeout: timeOutApi
         })
 
     });
 
     $("#setadmin").click(function () {
+
         if ($("#selectrole").val() == "") {
-            $("#errorstatus").html("Bạn chưa chọn nhóm phân quyền");
+            errorThongBao("Bạn chưa chọn nhóm phân quyền");
             return false;
         }
+        $("#spinner").show();
         $.ajax({
             type: "POST",
             url: "<?php echo admin_url('admin/addadminajax')?>",
@@ -176,7 +182,8 @@
                 nickname: $("#nickname").val()
             },
             success: function (res) {
-                if (res.errorCode == 0) {
+                $("#spinner").hide();
+                if (res == 0) {
                     $.ajax({
                         type: "POST",
                         url: "<?php echo admin_url(); ?>" + "/admin/addadmin",
@@ -193,16 +200,22 @@
                                 var baseurl = "<?php echo admin_url('admin') ?>";
                                 window.location.href = baseurl;
                             } else if (response == 0) {
-                                $("#errorstatus").html("Tài khoản đã tồn tại");
+                                errorThongBao("Số điện thoại đã tồn tại trong tool Admin");
                             }
 
-                        }
+                        }, error: function (xhr) {
+                            errorRequest(xhr.readyState, xhr.status, xhr.responseText);
+
+                        }, timeout: timeOutApi
                     });
 
-                } else if (res.errorCode == 1001) {
-                    $("#errorstatus").html("Bạn thêm không thành công");
+                } else {
+                    errorThongBao("Bạn thêm không thành công");
                 }
-            }
+            }, error: function (xhr) {
+                errorRequest(xhr.readyState, xhr.status, xhr.responseText);
+
+            }, timeout: timeOutApi
         });
 
     });

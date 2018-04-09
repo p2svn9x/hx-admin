@@ -98,7 +98,7 @@
                     <div class="col-md-1 col-sm-2 col-xs-12">
                     </div>
                     <div class="col-md-1 col-sm-2 col-xs-12">
-                        <input type="submit" id="search_tran" value="Tìm kiếm" class="btn btn-success">
+                        <input type="submit" id="search_tran" value="Tìm kiếm" class="btn bg-purple">
                     </div>
                 </div>
             </div>

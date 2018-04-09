@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Xeng Admin | Log in</title>
+    <title>HenXui Admin | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -55,7 +55,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-5">
-                    <input type="button" class="btn btn-block btn-success" value="Đăng nhập" id="login">
+                    <input type="button" class="btn btn-block bg-purple" value="Đăng nhập" id="login">
                 </div>
                 <!-- /.col -->
             </div>
@@ -87,6 +87,8 @@
 </body>
 </html>
 <script>
+
+
     $('#param_password').keyup(function (e) {
         var enterKey = 13;
 
@@ -138,13 +140,14 @@
                         errorThongBao("Hệ thống gián đoạn");
                     }
                 }, error: function (xhr) {
-                    errorRequest(xhr.readyState, xhr.status);
+                    errorRequest(xhr.readyState, xhr.status,xhr.responseText);
 
-                }
+                },timeout:timeOutApi
             });
         }
     });
     $("#login").click(function () {
+        console.log(checkStatus("aA"));
         if ($("#param_password").val() == "" && $("#param_username").val() == "") {
             errorThongBao("Bạn chưa nhập tên đăng nhập và mật khẩu");
             return false;
@@ -191,9 +194,10 @@
                     errorThongBao("Hệ thống gián đoạn");
                 }
             }, error: function (xhr) {
-               errorRequest(xhr.readyState, xhr.status);
 
-            }
+                errorRequest(xhr.readyState, xhr.status,xhr.responseText);
+
+            },timeout:timeOutApi
         });
     })
 

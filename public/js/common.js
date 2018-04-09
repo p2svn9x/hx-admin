@@ -2,7 +2,7 @@
  * Created by B150M on 9/14/2017.
  */
 
-
+var timeOutApi = 60000;
 function sendRequest(url, params, callback, errorcallback) {
     $.ajax({
         type: "POST",
@@ -17,17 +17,17 @@ function sendRequest(url, params, callback, errorcallback) {
     });
 }
 
-function errorRequest(readyState,status){
+function errorRequest(readyState,status,text){
     $("#spinner").hide();
     $("#validate-text").css("color","red");
     if (readyState == 4 && status == 200) {
-        $("#validate-text").html("Không kết nối được api");
+        $("#validate-text").html(text);
     }
     if (readyState == 4 && status == 404) {
-        $("#validate-text").html("Không tồn tại controller");
+        $("#validate-text").html("Not Found");
     }
     if (readyState == 0 && status == 0) {
-        $("#validate-text").html("Hệ thống gián đoán vui lòng đợi");
+        $("#validate-text").html(text);
     }
 }
 
@@ -47,4 +47,15 @@ function commaSeparateNumber(val) {
         val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
     }
     return val;
+}
+
+
+function checkStatus(str){
+    var arr = ["A","C","W"];
+    if ( $.inArray( str, arr ) > -1 ){
+        return true;
+    }else{
+        return false;
+    }
+
 }

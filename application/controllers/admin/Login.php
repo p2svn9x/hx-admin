@@ -28,13 +28,13 @@ Class Login extends MY_controller
     {
         $username= $this->input->post('username');
         $password= $this->input->post('password');
-        $odpinfo = $this->get_data_curl($this->config->item('api_backend').'5&m='.$username.'&pw='.$password.'&ty=ad');
+        $odpinfo = $this->get_data_curl($this->config->item('api_url').'5&m='.$username.'&pw='.$password.'&ty=ad');
 
         $data = json_decode($odpinfo);
 
 
         if($data->errorCode == 0){
-            $nickname = json_decode(base64_decode($data->sessionKey))->nickname;
+            $nickname = json_decode(base64_decode($data->sessionKey))->mobile;
 			 $access = $data->accessToken;
 
            if($this->infouser($nickname,$access) == true){

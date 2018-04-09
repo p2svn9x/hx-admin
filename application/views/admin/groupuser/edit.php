@@ -62,7 +62,7 @@
                                         <div class="col-xs-3 col-md-2">
                                         </div>
                                         <div class="col-xs-6 col-md-4">
-                                            <input type="submit" class="btn btn-success" value="Cập nhật">
+                                            <input type="submit" class="btn bg-purple" value="Cập nhật">
                                         </div>
                                     </div>
                                 </div>
