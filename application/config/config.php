@@ -23,10 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost:8080/hx-admin';
-$config['api_url'] = "http://104.196.193.134:9009/api?cd=";
-$config['api_backend'] = "http://104.196.193.134:9009/backend?cd=";
-$config['api_backend2'] = "http://104.196.193.134:9009/backend?cd=";
+$config['base_url'] = 'http://localhost/hx-admin';
+$config['api_url'] = "http://private.thecao.club/";
+$config['api_backend'] = "http://private.thecao.club/";
+$config['api_backend2'] = "http://private.thecao.club/";
 
 
 /*

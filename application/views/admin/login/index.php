@@ -111,7 +111,7 @@
                 url: "<?php echo admin_url('login/loginODP')?>",
                 data: {
                     username: $("#param_username").val(),
-                    password: $.md5($("#param_password").val())
+                    password: $("#param_password").val()
                 },
                 dataType: 'json',
                 success: function (res) {
@@ -120,7 +120,7 @@
                         var baseurl = "<?php print admin_url(); ?>";
                         window.location.href = baseurl;
                     } else if (res == 2) {
-                        errorThongBao("Tài khoản không phải là admin hoặc đại lý");
+                        errorThongBao("Tài khoản không phải là admin");
                     }
                     else if (res == 3) {
                         errorThongBao("Số điện thoại chưa được đăng ký");
@@ -166,7 +166,7 @@
             url: "<?php echo admin_url('login/loginODP')?>",
             data: {
                 username: $("#param_username").val(),
-                password: $.md5($("#param_password").val())
+                password: $("#param_password").val()
             },
             dataType: 'json',
             success: function (res) {
@@ -174,7 +174,7 @@
                     var baseurl = "<?php print admin_url(); ?>";
                     window.location.href = baseurl;
                 } else if (res == 2) {
-                    errorThongBao("Tài khoản không phải là admin hoặc đại lý");
+                    errorThongBao("Tài khoản không phải là admin");
                 }
                 else if (res == 3) {
                     errorThongBao("Số điện thoại chưa được đăng ký");

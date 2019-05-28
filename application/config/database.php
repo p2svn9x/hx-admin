@@ -74,13 +74,13 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'	=> '',
+    'dsn' => '',
     'hostname' => 'localhost',
     'username' => 'root',
-    'password' => 'root',
-    'database' => 'kqsxmb',
+    'password' => '1234',
+    'database' => 'db_admin',
 //    'hostname' => '104.155.211.54',
-//    'port'     => '3307',
+    'port' => '3306',
 //    'username' => 'vinplay',
 //    'password' => '6LV4VIFAZPAkj3m1UlFC',
 //    'database' => 'vinplay_admin',
@@ -104,71 +104,71 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-$db['vinplay'] = array(
-    'dsn'	=> '',
-    'hostname' => '210.211.101.231',
-    'username' => 'vinplay',
-    'password' => 'vinplay@123',
-    'database' => 'vinplay',
-    'port' => '3307',
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
-);
-
-
-$db['vinplay_minigame'] = array(
-    'dsn'	=> '',
-    'hostname' => '210.211.101.231',
-    'username' => 'vinplay',
-    'password' => 'vinplay@123',
-    'port' => '3307',
-    'database' => 'vinplay_minigame',
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
-);
-
-$db['vinplaytest'] = array(
-    'dsn'	=> '',
-    'hostname' => '192.168.0.251',
-    'username' => 'vinplay',
-    'password' => 'vinplay@123',
-    'database' => 'vinplay',
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
-);
+//$db['vinplay'] = array(
+//    'dsn'	=> '',
+//    'hostname' => '210.211.101.231',
+//    'username' => 'vinplay',
+//    'password' => 'vinplay@123',
+//    'database' => 'vinplay',
+//    'port' => '3307',
+//    'dbdriver' => 'mysqli',
+//    'dbprefix' => '',
+//    'pconnect' => FALSE,
+//    'db_debug' => (ENVIRONMENT !== 'production'),
+//    'cache_on' => FALSE,
+//    'cachedir' => '',
+//    'char_set' => 'utf8',
+//    'dbcollat' => 'utf8_general_ci',
+//    'swap_pre' => '',
+//    'encrypt' => FALSE,
+//    'compress' => FALSE,
+//    'stricton' => FALSE,
+//    'failover' => array(),
+//    'save_queries' => TRUE
+//);
+//
+//
+//$db['vinplay_minigame'] = array(
+//    'dsn'	=> '',
+//    'hostname' => '210.211.101.231',
+//    'username' => 'vinplay',
+//    'password' => 'vinplay@123',
+//    'port' => '3307',
+//    'database' => 'vinplay_minigame',
+//    'dbdriver' => 'mysqli',
+//    'dbprefix' => '',
+//    'pconnect' => FALSE,
+//    'db_debug' => (ENVIRONMENT !== 'production'),
+//    'cache_on' => FALSE,
+//    'cachedir' => '',
+//    'char_set' => 'utf8',
+//    'dbcollat' => 'utf8_general_ci',
+//    'swap_pre' => '',
+//    'encrypt' => FALSE,
+//    'compress' => FALSE,
+//    'stricton' => FALSE,
+//    'failover' => array(),
+//    'save_queries' => TRUE
+//);
+//
+//$db['vinplaytest'] = array(
+//    'dsn'	=> '',
+//    'hostname' => '192.168.0.251',
+//    'username' => 'vinplay',
+//    'password' => 'vinplay@123',
+//    'database' => 'vinplay',
+//    'dbdriver' => 'mysqli',
+//    'dbprefix' => '',
+//    'pconnect' => FALSE,
+//    'db_debug' => (ENVIRONMENT !== 'production'),
+//    'cache_on' => FALSE,
+//    'cachedir' => '',
+//    'char_set' => 'utf8',
+//    'dbcollat' => 'utf8_general_ci',
+//    'swap_pre' => '',
+//    'encrypt' => FALSE,
+//    'compress' => FALSE,
+//    'stricton' => FALSE,
+//    'failover' => array(),
+//    'save_queries' => TRUE
+//);

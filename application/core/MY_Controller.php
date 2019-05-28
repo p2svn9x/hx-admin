@@ -11,78 +11,80 @@ Class MY_Controller extends CI_Controller
         parent::__construct();
         header('Access-Control-Allow-Origin: *');
         $controller = $this->uri->segment(1);
-		  ini_set('max_execution_time', 0);
         switch ($controller) {
-            case 'admin' : {
-               // $this->output->cache(120);
-                $linkapi = $this->config->item('api_backend');
-                $this->data['linkapi'] = $linkapi;
-                $api = $this->config->item('api');
-                $this->data['api'] = $api;
-                $this->load->helper('language');
-                $this->lang->load('admin/common');
-                $admin_login = $this->session->userdata('user_id_login');
-                $this->data['login'] = $admin_login;
-                //neu da dang nhap thi lay thong tin cua thanh vien
-                //xu ly cac du lieu khi truy cap vao trang admin
-				  $this->load->library('curl');
-                $this->load->helper('admin');
-                if ($admin_login) {
-                    $this->data['namegame'] = "G";
-                     $this->load->model('admin_model');
-                    $this->load->model('userrole_model');
-                    $this->load->model('menurole_model');
-					 $this->load->model('menu_model');
-                    $admin_info = $this->admin_model->get_info($admin_login);
-                    $this->data['admin_info'] = $admin_info;
-                    $link1 = $this->uri->rsegment('1');
-                    $link2 = $this->uri->rsegment('2');
-                    if($link2 != "index"){
-                        if($this->menu_model->get_menu_id($link1.'/'.$link2)) {
-                            $menu_id = $this->menu_model->get_menu_id($link1 . '/' . $link2);
-                            $this->data['role'] = $this->get_role_user($admin_login,$menu_id[0]->id);
-                        }else{
-                            $this->data['role'] = false;
+            case 'admin' :
+                {
+                    // $this->output->cache(120);
+                    $linkapi = $this->config->item('api_backend');
+                    $this->data['linkapi'] = $linkapi;
+                    $api = $this->config->item('api');
+                    $this->data['api'] = $api;
+                    $this->load->helper('language');
+                    $this->lang->load('admin/common');
+                    $admin_login = $this->session->userdata('user_id_login');
+                    $this->data['login'] = $admin_login;
+                    //neu da dang nhap thi lay thong tin cua thanh vien
+                    //xu ly cac du lieu khi truy cap vao trang admin
+                    $this->load->library('curl');
+                    $this->load->helper('admin');
+                    if ($admin_login) {
+                        $this->data['namegame'] = "G";
+                        $this->load->model('admin_model');
+                        $this->load->model('userrole_model');
+                        $this->load->model('menurole_model');
+                        $this->load->model('menu_model');
+                        $admin_info = $this->admin_model->get_info($admin_login);
+                        $this->data['admin_info'] = $admin_info;
+                        $link1 = $this->uri->rsegment('1');
+                        $link2 = $this->uri->rsegment('2');
+                        if ($link2 != "index") {
+                            if ($this->menu_model->get_menu_id($link1 . '/' . $link2)) {
+                                $menu_id = $this->menu_model->get_menu_id($link1 . '/' . $link2);
+                                $this->data['role'] = $this->get_role_user($admin_login, $menu_id[0]->id);
+                            } else {
+                                $this->data['role'] = false;
+                            }
+                        } else {
+                            if ($this->menu_model->get_menu_id($link1)) {
+                                $menu_id = $this->menu_model->get_menu_id($link1);
+                                $this->data['role'] = $this->get_role_user($admin_login, $menu_id[0]->id);
+                            } else {
+                                $this->data['role'] = false;
+                            }
                         }
-                    }else{
-                        if($this->menu_model->get_menu_id($link1)) {
-                            $menu_id = $this->menu_model->get_menu_id($link1);
-                            $this->data['role'] = $this->get_role_user($admin_login,$menu_id[0]->id);
-                        }else{
-                            $this->data['role'] = false;
-                        }
-                    }
                         $list = $this->GetMenuLeftByUser($admin_info->ID);
                         $this->data['menu_list'] = $list;
+                    }
+                    $this->_check_login();
+                    break;
                 }
-                $this->_check_login();
-                break;
-            }
-            case'tranfer':{
-                $this->load->helper('language');
-                $this->lang->load('tranfer/common');
-                $this->load->helper('tranfer');
-                $this->_check_login_tranfer();
+            case'tranfer':
+                {
+                    $this->load->helper('language');
+                    $this->lang->load('tranfer/common');
+                    $this->load->helper('tranfer');
+                    $this->_check_login_tranfer();
 
-                break;
-            }
-            default: {
-            $this->load->helper('news_helper');
-            $this->load->model('news_model');
-            $this->load->model('tag_model');
-            $this->load->model('catalog_model');
-            $input = array();
-            $input1 = array();
-            $input1['order'] = array('sort_order', 'ASC');
-            $catalog_list = $this->catalog_model->get_list($input1);
-            $tag_list = $this->tag_model->get_list($input1);
-            $this->data['catalog_list'] = $catalog_list;
-            $this->data['tag_list'] = $tag_list;
-            $input['limit'] = array(5, 0);
-            $news_list = $this->news_model->get_list($input);
-            $this->data['news_list'] = $news_list;
+                    break;
+                }
+            default:
+                {
+                    $this->load->helper('news_helper');
+                    $this->load->model('news_model');
+                    $this->load->model('tag_model');
+                    $this->load->model('catalog_model');
+                    $input = array();
+                    $input1 = array();
+                    $input1['order'] = array('sort_order', 'ASC');
+                    $catalog_list = $this->catalog_model->get_list($input1);
+                    $tag_list = $this->tag_model->get_list($input1);
+                    $this->data['catalog_list'] = $catalog_list;
+                    $this->data['tag_list'] = $tag_list;
+                    $input['limit'] = array(5, 0);
+                    $news_list = $this->news_model->get_list($input);
+                    $this->data['news_list'] = $news_list;
 
-            }
+                }
 
         }
     }
@@ -105,6 +107,7 @@ Class MY_Controller extends CI_Controller
             redirect(admin_url('home'));
         }
     }
+
     private function _check_login_tranfer()
     {
         $controller = $this->uri->rsegment('1');
@@ -123,7 +126,7 @@ Class MY_Controller extends CI_Controller
     }
 
 
-   function GetMenuLeftByUser($user_id)
+    function GetMenuLeftByUser($user_id)
     {
 
         $this->load->model('admin_model');
@@ -145,11 +148,11 @@ Class MY_Controller extends CI_Controller
                             foreach ($list_name as $menu_name_item) {
                                 $list_menu_child = $this->menu_model->get_list_menu_name_by_parrent_id($menu_item->Menu_ID, $group_id_item->Group_ID);
                                 $str .= "<li>";
-                                $str .= "<a href=".admin_url($menu_name_item->Link)."><i class=\"fa fa-dashboard\"></i><span>".$menu_name_item->Name."</span></a>";
+                                $str .= "<a href=" . admin_url($menu_name_item->Link) . "><i class=\"fa fa-dashboard\"></i><span>" . $menu_name_item->Name . "</span></a>";
                                 if (!empty($list_menu_child)) {
                                     $str .= "<ul class=\"treeview-menu\">";
                                     foreach ($list_menu_child as $menu_child) {
-                                        $str .= "<li><a href=".admin_url($menu_child->Link)."><i class=\"fa fa-circle-o\"></i>$menu_child->Name</a></li>";
+                                        $str .= "<li><a href=" . admin_url($menu_child->Link) . "><i class=\"fa fa-circle-o\"></i>$menu_child->Name</a></li>";
                                     }
                                     $str .= "</ul>";
                                 }
@@ -163,9 +166,11 @@ Class MY_Controller extends CI_Controller
         }
         return $str;
     }
-	function get_role_user($user_id,$menu_id){
+
+    function get_role_user($user_id, $menu_id)
+    {
         $this->load->model('userrole_model');
-        $role = $this->userrole_model->get_list_role_menu($user_id,$menu_id);
+        $role = $this->userrole_model->get_list_role_menu($user_id, $menu_id);
         return $role;
     }
 
@@ -179,10 +184,11 @@ Class MY_Controller extends CI_Controller
 
         //lấy url hiện tại
         $stack = array();
-        if(!empty($list_link)){
-        foreach ($list_link as $item) {
-            array_push($stack, $item->Link);
-        }}
+        if (!empty($list_link)) {
+            foreach ($list_link as $item) {
+                array_push($stack, $item->Link);
+            }
+        }
         if (in_array($current_url, $stack)) {
             return true;
         } else {
@@ -217,7 +223,9 @@ Class MY_Controller extends CI_Controller
         $ci->pagination->initialize($config);
         return $config;
     }
-    function dateDiff($start, $end) {
+
+    function dateDiff($start, $end)
+    {
         date_default_timezone_set('Asia/Bangkok');
         $start_ts = strtotime($start);
         $end_ts = strtotime($end);
@@ -226,56 +234,59 @@ Class MY_Controller extends CI_Controller
     }
 
 
-    function rand_string( $length ) {
-    $str = "";
-    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    $size = strlen( $chars );
-    for( $i = 0; $i < $length; $i++ ) {
-        $str .= $chars[ rand( 0, $size - 1 ) ];
+    function rand_string($length)
+    {
+        $str = "";
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $size = strlen($chars);
+        for ($i = 0; $i < $length; $i++) {
+            $str .= $chars[rand(0, $size - 1)];
+        }
+        return $str;
     }
-    return $str;
-}
-    function mb_strrev($str, $encoding="utf-8")
+
+    function mb_strrev($str, $encoding = "utf-8")
     {
         $ret = "";
-        for($i=mb_strlen($str, $encoding)-1; $i >= 0; $i--) {
+        for ($i = mb_strlen($str, $encoding) - 1; $i >= 0; $i--) {
             $ret .= mb_substr($str, $i, 1, $encoding);
         }
         return $ret;
     }
-	
-	function get_data_curl($url){
-          $ch = curl_init();
-    $timeout = 1000;
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-    $data = curl_exec($ch);
-    curl_close($ch);
 
-    return $data;
+    function get_data_curl($url)
+    {
+        $ch = curl_init();
+        $timeout = 1000;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data;
     }
-	
-	 function get_client_ip() {
-      foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
-        if (array_key_exists($key, $_SERVER) === true){
-            foreach (explode(',', $_SERVER[$key]) as $ip){
-                $ip = trim($ip); // just to be safe
 
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
-                    return $ip;
+    function get_client_ip()
+    {
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip); // just to be safe
+
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    }
                 }
             }
         }
     }
-    }
-	
-	function CallAPI($method, $url, $data = false)
+
+    function CallAPI($method, $url, $data = false)
     {
         $curl = curl_init();
 
-        switch ($method)
-        {
+        switch ($method) {
             case "POST":
                 curl_setopt($curl, CURLOPT_POST, 1);
 
