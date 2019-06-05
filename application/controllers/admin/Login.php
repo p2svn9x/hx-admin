@@ -27,7 +27,7 @@ Class Login extends MY_controller
 
             $this->session->set_userdata('user_id_login', $user->ID);
         }
-        //$this->session->set_userdata('accessToken', array($accessToken, $nickname));
+        $this->session->set_userdata('accessToken', array($accessToken, $nickname));
 
         return true;
     }

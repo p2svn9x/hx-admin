@@ -70,6 +70,7 @@
 <script src="<?php echo public_url() ?>/site/bootstrap/highcharts.js"></script>
 <script src="<?php echo public_url() ?>/site/bootstrap/exporting.js"></script>
 <script src="<?php echo public_url('js') ?>/jquery/jquery.colorbox.js"></script>
+<script src="<?php echo public_url('js') ?>/axios.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo public_url('admin')?>/css/colorbox.css" media="screen" />
 <script type="text/javascript" src="<?php echo public_url()?>/js/jquery.simplePagination.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo public_url()?>/admin/css/simplePagination.css" media="screen" />
