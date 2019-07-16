@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/hx-admin';
-$config['api_url'] = "http://private.thecao.club/";
+$config['api_url'] = "http://private.consodep.club/";
 $config['api_backend'] = "http://private.thecao.club/";
 $config['api_backend2'] = "http://private.thecao.club/";
 
