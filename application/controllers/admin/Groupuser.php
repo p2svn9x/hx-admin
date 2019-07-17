@@ -9,31 +9,29 @@ Class Groupuser extends MY_Controller
         $this->load->model('menurole_model');
 
 
-
     }
+
     /*
      * Lay danh sach admin
      */
     function index()
     {
+        $input = array();
+        $message = $this->session->flashdata('message');
+        $this->data['message'] = $message;
+        $messageError = $this->session->flashdata('messageError');
+        $this->data['messageError'] = $messageError;
+        $list = $this->groupuser_model->get_list($input);
+        $this->data['list'] = $list;
+        $this->data['temp'] = 'admin/groupuser/index';
+        $this->load->view('admin/main', $this->data);
 
+    }
 
-        $admin_login = $this->session->userdata('user_id_login');
-        $admin_info = $this->admin_model->get_info($admin_login);
-
-            $input = array();
-            $list = $this->groupuser_model->get_list($input);
-            $this->data['list'] = $list;
-            //lay tổng số bản ghi
-            $total = $this->groupuser_model->get_total();
-            $this->data['total'] = $total;
-
-            //lay nội dung của biến message
-            $message = $this->session->flashdata('message');
-            $this->data['message'] = $message;
-            $this->data['temp'] = 'admin/groupuser/index';
-            $this->load->view('admin/main', $this->data);
-
+    function listGroup()
+    {
+        $list = $this->groupuser_model->get_list();
+        echo json_encode($list);
     }
 
     /*
@@ -41,36 +39,38 @@ Class Groupuser extends MY_Controller
          */
     function add()
     {
-        $admin_login = $this->session->userdata('user_id_login');
-        $admin_info = $this->admin_model->get_info($admin_login);
-        // $url= substr($_SERVER['REQUEST_URI'],18,strlen($_SERVER['REQUEST_URI'])-18);
-            $this->load->library('form_validation');
-            $this->load->helper('form');
-            //neu ma co du lieu post len thi kiem tra
-            if ($this->input->post()) {
-                $this->form_validation->set_rules('name', 'Tên nhóm', 'required');
-                //nhập liệu chính xác
-                if ($this->form_validation->run()) {
-                    //them vao csdl
-                    $name = $this->input->post('name');
-                    $description = $this->input->post('description');
-                    $data = array(
-                        'name' => $name,
-                        'description' => $description,
-                    );
-                    if ($this->groupuser_model->create($data)) {
-                        //tạo ra nội dung thông báo
-                        $this->session->set_flashdata('message', 'Thêm mới dữ liệu thành công');
-                    } else {
-                        $this->session->set_flashdata('message', 'Không thêm được');
-                    }
-                    //chuyen tới trang danh sách quản trị viên
-                    redirect(admin_url('groupuser'));
-                }
+        $name = $this->input->get('name');
+        $description = $this->input->get('description');
+        $data = array(
+            'name' => $name,
+            'description' => $description,
+        );
+        $checkName = $this->checkGroupName($name);
+        header('Content-Type: application/json');
+        if ($checkName == false) {
+            $this->session->set_flashdata('messageError', 'Tên nhóm người dùng đã rồn tại');
+        } else {
+            if ($this->groupuser_model->create($data)) {
+                $this->session->set_flashdata('message', 'Thêm mới nhóm người dùng thành công');
+            } else {
+                $this->session->set_flashdata('messageError', 'Lỗi hệ thống. Vui lòng thử lại !!!');
             }
-            $this->data['temp'] = 'admin/groupuser/add';
-            $this->load->view('admin/main', $this->data);
+        }
+
+
     }
+
+    function checkGroupName($name)
+    {
+        $where = array('Name' => $name);
+        $check = $this->groupuser_model->get_info_rule($where);
+        if ($check == false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function edit()
     {
         $admin_login = $this->session->userdata('user_id_login');
@@ -78,39 +78,40 @@ Class Groupuser extends MY_Controller
         // $url= substr($_SERVER['REQUEST_URI'],18,strlen($_SERVER['REQUEST_URI'])-18);
         $url = $this->router->fetch_class();
         //lay id cua quan tri vien can chinh sua
-            $id = $this->uri->rsegment('3');
-            $id = intval($id);
-            $this->load->library('form_validation');
-            $this->load->helper('form');
-            //lay thong cua quan trị viên
-            $info = $this->groupuser_model->get_info($id);
-            if (!$info) {
-                $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
+        $id = $this->uri->rsegment('3');
+        $id = intval($id);
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        //lay thong cua quan trị viên
+        $info = $this->groupuser_model->get_info($id);
+        if (!$info) {
+            $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
+            redirect(admin_url('groupuser'));
+        }
+        $this->data['info'] = $info;
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('name', 'Tên nhóm', 'required');
+            if ($this->form_validation->run()) {
+                $name = $this->input->post('name');
+                $description = $this->input->post('description');
+                $data = array(
+                    'name' => $name,
+                    'description' => $description,
+                );
+                if ($this->groupuser_model->update($id, $data)) {
+                    //tạo ra nội dung thông báo
+                    $this->session->set_flashdata('message', 'Cập nhật dữ liệu thành công');
+                } else {
+                    $this->session->set_flashdata('message', 'Không cập nhật được');
+                }
+                //chuyen tới trang danh sách quản trị viên
                 redirect(admin_url('groupuser'));
             }
-            $this->data['info'] = $info;
-            if ($this->input->post()) {
-                $this->form_validation->set_rules('name', 'Tên nhóm', 'required');
-                if ($this->form_validation->run()) {
-                    $name = $this->input->post('name');
-                    $description = $this->input->post('description');
-                    $data = array(
-                        'name' => $name,
-                        'description' => $description,
-                    );
-                    if ($this->groupuser_model->update($id, $data)) {
-                        //tạo ra nội dung thông báo
-                        $this->session->set_flashdata('message', 'Cập nhật dữ liệu thành công');
-                    } else {
-                        $this->session->set_flashdata('message', 'Không cập nhật được');
-                    }
-                    //chuyen tới trang danh sách quản trị viên
-                    redirect(admin_url('groupuser'));
-                }
-            }
-            $this->data['temp'] = 'admin/groupuser/edit';
-            $this->load->view('admin/main', $this->data);
+        }
+        $this->data['temp'] = 'admin/groupuser/edit';
+        $this->load->view('admin/main', $this->data);
     }
+
 //xóa dữ liệu nhóm người dùng
     function delete()
     {
@@ -128,7 +129,8 @@ Class Groupuser extends MY_Controller
         $this->session->set_flashdata('message', 'Xóa dữ liệu thành công');
         redirect(admin_url('groupuser'));
     }
-    function  role()
+
+    function role()
     {
         //load model
         $this->load->model('admin_model');
@@ -158,6 +160,7 @@ Class Groupuser extends MY_Controller
         $this->data['temp'] = 'admin/groupuser/role';
         $this->load->view('admin/main', $this->data);
     }
+
     //danh sach menu trang index
     function get_list_role($menuid)
     {
@@ -180,6 +183,7 @@ Class Groupuser extends MY_Controller
         }
         return $str;
     }
+
     function get_sub_list_role($menuid, $roleid)
     {
         $str = "";

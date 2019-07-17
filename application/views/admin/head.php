@@ -1,9 +1,16 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Admin HenXui| Dashboard</title>
-<!-- Tell the browser to be responsive to screen width -->
+<title>Admin <?php  echo $game_name?></title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.7 -->
+
+<style>
+    .validateError{
+        color: #FF0000 !important; /* red */
+        font-weight: 600 !important;
+        font-size: 18px !important;
+    }
+</style>
 <link rel="stylesheet" href="<?php echo public_url() ?>/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
       href="<?php echo public_url() ?>/site/bootstrap/bootstrap-datetimepicker.css">
@@ -22,16 +29,18 @@
 <!-- jvectormap -->
 <link rel="stylesheet" href="<?php echo public_url() ?>/bower_components/jvectormap/jquery-jvectormap.css">
 <!-- Date Picker -->
-<link rel="stylesheet" href="<?php echo public_url() ?>/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet"
+      href="<?php echo public_url() ?>/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <!-- Daterange picker -->
 <link rel="stylesheet" href="<?php echo public_url() ?>/bower_components/bootstrap-daterangepicker/daterangepicker.css">
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="<?php echo public_url() ?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-<script>var baseUrl= "<?php echo admin_url()?>"</script>
+<script>var baseUrl = "<?php echo admin_url()?>"</script>
 <script src="<?php echo public_url() ?>/site/bootstrap/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo public_url() ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -54,7 +63,7 @@
 <script src="<?php echo public_url() ?>/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
 <script
-    src="<?php echo public_url() ?>/site/bootstrap/bootstrap-datetimepicker.min.js"></script>
+        src="<?php echo public_url() ?>/site/bootstrap/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo public_url() ?>/js/jquery.twbsPagination.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<?php echo public_url() ?>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
@@ -62,6 +71,8 @@
 <script src="<?php echo public_url() ?>/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="<?php echo public_url() ?>/bower_components/fastclick/lib/fastclick.js"></script>
 <script src="<?php echo public_url('js') ?>/axios.min.js"></script>
+<script src="<?php echo public_url('js') ?>/jquery.validate.min.js"></script>
+
 
 <script src="<?php echo public_url() ?>/dist/js/adminlte.min.js"></script>
 
@@ -75,40 +86,39 @@
 <script src="<?php echo public_url('js') ?>/jquery/jquery.colorbox.js"></script>
 <script src="<?php echo public_url('js') ?>/callapi.js"></script>
 
-<link rel="stylesheet" type="text/css" href="<?php echo public_url('admin')?>/css/colorbox.css" media="screen" />
-<script type="text/javascript" src="<?php echo public_url()?>/js/jquery.simplePagination.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo public_url()?>/admin/css/simplePagination.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo public_url('admin') ?>/css/colorbox.css" media="screen"/>
+<script type="text/javascript" src="<?php echo public_url() ?>/js/jquery.simplePagination.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo public_url() ?>/admin/css/simplePagination.css" media="screen"/>
 
 
 <script>
 
 
-
-     jQuery(function ($) {
-         $("ul a").click(function (e) {
-             var link = $(this);
-             var item = link.parent("li");
-             if (item.hasClass("active")) {
-                 item.removeClass("active").children("a").removeClass("active");
-             } else {
-                 item.addClass("active").children("a").addClass("active");
-             }
-             if (item.children("ul").length > 0) {
-                 var href = link.attr("href");
-                 console.log(href);
-                 link.attr("href", "#");
-                 setTimeout(function () {
-                     link.attr("href", href);
-                 }, 3000);
-                 e.preventDefault();
-             }
-         })
-             .each(function () {
-                 var link = $(this);
-                 if (link.get(0).href === location.href) {
-                     link.addClass("active").parents("li").addClass("active");
-                     return false;
-                 }
-             });
-     });
+    jQuery(function ($) {
+        $("ul a").click(function (e) {
+            var link = $(this);
+            var item = link.parent("li");
+            if (item.hasClass("active")) {
+                item.removeClass("active").children("a").removeClass("active");
+            } else {
+                item.addClass("active").children("a").addClass("active");
+            }
+            if (item.children("ul").length > 0) {
+                var href = link.attr("href");
+                console.log(href);
+                link.attr("href", "#");
+                setTimeout(function () {
+                    link.attr("href", href);
+                }, 3000);
+                e.preventDefault();
+            }
+        })
+            .each(function () {
+                var link = $(this);
+                if (link.get(0).href === location.href) {
+                    link.addClass("active").parents("li").addClass("active");
+                    return false;
+                }
+            });
+    });
 </script>

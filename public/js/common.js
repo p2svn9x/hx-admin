@@ -14,6 +14,17 @@ function errorThongBao(text) {
     }, 1000);
 
 }
+
+function successThongBao(text) {
+
+    $(".loader").css("display", "none");
+    $('.error').addClass('alert alert-success').html(text);
+
+    setTimeout(function () {
+        $('.error').removeClass('alert alert-success').html('');
+    }, 1000);
+
+}
 function commaSeparateNumber(val) {
     while (/(\d+)(\d{3})/.test(val.toString())) {
         val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
@@ -105,3 +116,24 @@ function chartCcu(ccu, timeLabel) {
 
     });
 }
+
+function showPageAddGroupUser(){
+    $("#addGroupUser").css("display", "block");
+    $("#groupUser").css("display", "none");
+}
+
+function itemGroupUser(stt, name,des,id) {
+    var rs = "";
+    rs += "<tr>";
+    rs += "<td  class=\"text-center\">" + stt + "</td>";
+    rs += "<td>" + name + "</td>";
+    rs += "<td>" + des + "</td>";
+    rs += "<td class='text-center'>" +
+        "<a title='Chỉnh sửa' class='btn btn-success'><span class='glyphicon glyphicon-edit'></span></a>" +  "     "+
+        "<a title='Xóa' class='btn btn-danger' onclick='deleteGroup()'><span class='glyphicon glyphicon-remove' ></span></a>" +
+        "</td>"
+    rs += "</tr>";
+    return rs;
+
+}
+

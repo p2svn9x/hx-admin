@@ -84,7 +84,6 @@
 
 <script>
     $(document).ready(function () {
-
         logCcu()
     })
 
