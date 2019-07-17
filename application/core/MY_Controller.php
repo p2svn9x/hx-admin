@@ -15,9 +15,11 @@ Class MY_Controller extends CI_Controller
             case 'admin' :
                 {
                     $admin_login = $this->session->userdata('user_id_login');
-                    $this->data['login'] = $admin_login;
+                    $this->data['userID'] = $admin_login;
+                    $this->data['game_name']  = "Boa.Club";
+                    $this->data['money_name']  = "Boa";
                     if ($admin_login) {
-                        $this->data['namegame'] = "G";
+                        $this->data['nick_name'] = $this->session->userdata('nick_name');
                         $this->load->model('admin_model');
                         $this->load->model('userrole_model');
                         $this->load->model('menurole_model');
@@ -50,7 +52,7 @@ Class MY_Controller extends CI_Controller
             default:
                 {
 
-
+                    $this->data['game_name']  = "Boa.Club";
                 }
 
         }

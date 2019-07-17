@@ -46,7 +46,6 @@ Class Menu extends MY_Controller
                 $param = $this->input->post('param');
                 $link = $this->input->post('link');
                 $parent_id = $this->input->post('ParentID');
-                $isthuong = $this->input->post('displaytkthuong');
                 $issuper = $this->input->post('displaytksuper');
                 if (isset($_POST['Status'])) {
                     $status = 'A';
@@ -58,7 +57,6 @@ Class Menu extends MY_Controller
                     'param' => $param,
                     'link' => $link,
                     'parrent_id' => $parent_id,
-                    'isThuong' => $isthuong,
                     'isSuper' => $issuper,
                     'Status' => $status,
                 );
@@ -114,7 +112,6 @@ Class Menu extends MY_Controller
                     'param' => $param,
                     'link' => $link,
                     'parrent_id' => $parent_id,
-                    'isThuong' => $isthuong,
                     'isSuper' => $issuper,
                     'Status' => $status,
                 );

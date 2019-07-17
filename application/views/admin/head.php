@@ -30,6 +30,8 @@
 
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+<script>var baseUrl= "<?php echo admin_url()?>"</script>
 <script src="<?php echo public_url() ?>/site/bootstrap/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo public_url() ?>/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -59,6 +61,7 @@
 
 <script src="<?php echo public_url() ?>/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="<?php echo public_url() ?>/bower_components/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo public_url('js') ?>/axios.min.js"></script>
 
 <script src="<?php echo public_url() ?>/dist/js/adminlte.min.js"></script>
 
@@ -70,10 +73,12 @@
 <script src="<?php echo public_url() ?>/site/bootstrap/highcharts.js"></script>
 <script src="<?php echo public_url() ?>/site/bootstrap/exporting.js"></script>
 <script src="<?php echo public_url('js') ?>/jquery/jquery.colorbox.js"></script>
-<script src="<?php echo public_url('js') ?>/axios.min.js"></script>
+<script src="<?php echo public_url('js') ?>/callapi.js"></script>
+
 <link rel="stylesheet" type="text/css" href="<?php echo public_url('admin')?>/css/colorbox.css" media="screen" />
 <script type="text/javascript" src="<?php echo public_url()?>/js/jquery.simplePagination.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo public_url()?>/admin/css/simplePagination.css" media="screen" />
+
 
 <script>
 

@@ -43,18 +43,17 @@
                                                 <td><?php echo $stt ?></td>
                                                 <td><?php echo $row->Name ?></td>
                                                 <td><?php echo $row->Description ?></td>
-                                                <td class="option">
+                                                <td class="text-center">
                                                     <a href="<?php echo admin_url('groupuser/edit/' . $row->Id) ?>"
-                                                       title="Chỉnh sửa"
-                                                       class="tipS ">
-                                                        <img
-                                                            src="<?php echo public_url('admin') ?>/images/icons/color/edit.png"/>
+                                                       title="Chỉnh sửa" class="btn btn-success">
+                                                       <span class="glyphicon glyphicon-edit">
+                                                        </span>
                                                     </a>
                                                     <a href="<?php echo admin_url('groupuser/delete/' . $row->Id) ?>"
                                                        title="Xóa"
-                                                       class="tipS verify_action">
-                                                        <img
-                                                            src="<?php echo public_url('admin') ?>/images/icons/color/delete.png"/>
+                                                       class="btn btn-danger verify_action">
+                                                        <span class="glyphicon glyphicon-remove">
+                                                        </span>
                                                     </a>
                                                 </td>
                                             </tr>

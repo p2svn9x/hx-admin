@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="<?php echo public_url() ?>/dist/css/AdminLTE.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="<?php echo public_url() ?>/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="<?php echo public_url() ?>/dist/css/normalize.min.css">
+    <link href="<?php echo public_url() ?>/dist/css/style-loader.css" rel="stylesheet"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,15 +34,12 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>Admin</b></a>
+        <a href="#"><b>Admin Boa.Club</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <div id="spinner" class="spinner" style="display:none;">
-            <img id="img-spinner" src="<?php echo public_url('admin/images/gif-load.gif') ?>" alt="Loading"/>
-        </div>
-        <label class="control-label" for="inputError" id="validate-text"></label>
-
+        <div class="loader" style="display: none"></div>
+        <div class="error"></div>
         <form action="" method="post">
             <div class="form-group has-feedback">
                 <input class="form-control" placeholder="Tên đăng nhập" type="text" id="param_username" name="username">
@@ -63,11 +62,12 @@
 
 
     </div>
-    <!-- /.login-box-body -->
+
 </div>
 <!-- /.login-box -->
 
 <!-- jQuery 3 -->
+<script>var baseUrl= "<?php echo admin_url()?>"</script>
 <script src="<?php echo public_url() ?>/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo public_url() ?>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -75,6 +75,7 @@
 <script src="<?php echo public_url() ?>/plugins/iCheck/icheck.min.js"></script>
 <script type="text/javascript" src="<?php echo public_url() ?>/js/jquery.md5.js" type="text/javascript"></script>
 <script src="<?php echo public_url() ?>/js/common.js"></script>
+<script src="<?php echo public_url() ?>/js/callapi.js"></script>
 <script>
     $(function () {
         $('input').iCheck({
@@ -94,182 +95,41 @@
 
         if (e.which == enterKey) {
             if ($("#param_password").val() == "" && $("#param_username").val() == "") {
+
                 errorThongBao("Bạn chưa nhập tên đăng nhập và mật khẩu");
                 return false;
             }
-            if ($("#param_username").val() == "") {
+            else if ($("#param_username").val() == "") {
                 errorThongBao("Bạn chưa nhập tên đăng nhập");
                 return false;
             }
-            if ($("#param_password").val() == "") {
+            else if ($("#param_password").val() == "") {
                 errorThongBao("Bạn chưa nhập mật khẩu");
                 return false;
+            }else{
+                loginAdmin();
             }
-            $("#spinner").show();
-            $.ajax({
-                type: "POST",
-                url: "<?php echo admin_url('login/loginODP')?>",
-                data: {
-                    username: $("#param_username").val(),
-                    password: $("#param_password").val()
-                },
-                dataType: 'json',
-                success: function (res) {
 
-                    if (res == 1) {
-                        var baseurl = "<?php print admin_url(); ?>";
-                        window.location.href = baseurl;
-                    } else if (res == 2) {
-                        errorThongBao("Tài khoản không phải là admin");
-                    }
-                    else if (res == 3) {
-                        errorThongBao("Số điện thoại chưa được đăng ký");
-                    }
-                    else if (res == 4) {
-                        errorThongBao("AccessToken hết hạn");
-                    }
-                    else if (res == 5) {
-                        errorThongBao("Mật khẩu không chính xác");
-                    }
-                    else if (res == 6) {
-                        errorThongBao("Yêu cầu cập nhật số điện thoại");
-                    }
-                    else if (res == 7) {
-                        errorThongBao("Tài khoản bị khóa đăng nhập");
-                    } else if (res == 8) {
-                        errorThongBao("Hệ thống gián đoạn");
-                    }
-                }, error: function (xhr) {
-                    errorRequest(xhr.readyState, xhr.status,xhr.responseText);
-
-                },timeout:timeOutApi
-            });
         }
     });
     $("#login").click(function () {
-        console.log(checkStatus("aA"));
         if ($("#param_password").val() == "" && $("#param_username").val() == "") {
             errorThongBao("Bạn chưa nhập tên đăng nhập và mật khẩu");
-            return false;
+            $("#param_username").focus();
         }
-        if ($("#param_username").val() == "") {
+        else if ($("#param_username").val() == "") {
             errorThongBao("Bạn chưa nhập tên đăng nhập");
-            return false;
+            $("#param_username").focus();
         }
-        if ($("#param_password").val() == "") {
+        else if ($("#param_password").val() == "") {
             errorThongBao("Bạn chưa nhập mật khẩu");
-            return false;
+            $("#param_password").focus();
+        }else {
+            loginAdmin();
         }
-        $("#spinner").show();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo admin_url('login/loginODP')?>",
-            data: {
-                username: $("#param_username").val(),
-                password: $("#param_password").val()
-            },
-            dataType: 'json',
-            success: function (res) {
-                if (res == 1) {
-                    var baseurl = "<?php print admin_url(); ?>";
-                    window.location.href = baseurl;
-                } else if (res == 2) {
-                    errorThongBao("Tài khoản không phải là admin");
-                }
-                else if (res == 3) {
-                    errorThongBao("Số điện thoại chưa được đăng ký");
-                }
-                else if (res == 4) {
-                    errorThongBao("AccessToken hết hạn");
-                }
-                else if (res == 5) {
-                    errorThongBao("Mật khẩu không chính xác");
-                }
-                else if (res == 6) {
-                    errorThongBao("Yêu cầu cập nhật số điện thoại");
-                }
-                else if (res == 7) {
-                    errorThongBao("Tài khoản bị khóa đăng nhập");
-                } else if (res == 8) {
-                    errorThongBao("Hệ thống gián đoạn");
-                }
-            }, error: function (xhr) {
-
-                errorRequest(xhr.readyState, xhr.status,xhr.responseText);
-
-            },timeout:timeOutApi
-        });
     })
 
-    $("#getodp").click(function () {
-        $.ajax({
-            type: "GET",
-            url: "http://104.199.205.65:8081/api?c=131&nn=" + $("#nickname").val(),
-            crossDomain: true,
-            contentType: "application/x-www-form-urlencoded",
-            async: false,
-            dataType: 'json',
-            processData: false,
-            cache: false,
-            success: function (result) {
-                if (result == 0) {
-                    alert("Bạn lấy mã odp thành công")
-                } else if (result == 1) {
-                    alert("Lỗi hệ thống")
-                } else if (result == 2) {
-                    alert("Nickname không tồn tại")
-                } else if (result == 4) {
-                    alert("Bạn chưa đăng ký bảo mật trên trang vinplay.com")
-                } else if (result == 5) {
-                    alert("Bạn đã lấy odp rồi, gửi tin nhắn để lấy lại")
-                }
 
-            }
-        });
-    });
-    $("#getreodp").click(function () {
-        alert("Mời bạn soạn tin nhắn VIN ODP gửi 8079 để lấy lại ODP")
-    })
-
-    $("#loginodp").click(function () {
-        if ($("#odplogin").val() == "") {
-            alert("Bạn chưa nhập ODP");
-            return false;
-        }
-        $.ajax({
-            type: "POST",
-            url: "<?php echo admin_url('login/loginODP')?>",
-            data: {
-                nickname: $("#nickname").val(),
-                otp: $("#odplogin").val()
-            },
-            dataType: 'json',
-            success: function (res) {
-                if (res == 0) {
-
-                    var baseurl = "<?php print admin_url(); ?>";
-                    window.location.href = baseurl;
-                }
-                else if (res == 88) {
-                    alert("Tài khoản không được phân quyền");
-                }
-                else if (res == 1) {
-                    alert("Lỗi hệ thống")
-                }
-                else if (res == 2) {
-                    alert("Nickname không tồn tại")
-                } else if (res == 4) {
-                    alert("Bạn chưa đăng ký bảo mật trên trang vinplay.com")
-                }
-                else if (res == 5) {
-                    alert("ODP sai")
-                } else if (res == 6) {
-                    alert("ODP hết hạn")
-                }
-            }
-
-        });
-    })
 
 
 </script>
