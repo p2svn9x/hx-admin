@@ -71,26 +71,6 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-3 col-md-2">
-                                            <label for="exampleInputEmail1">Tài khoản:</label>
-                                        </div>
-                                        <div class="col-xs-4 col-md-2">
-                                            <input type="checkbox" id="tkthuong" name="isThuong" value="0"> Tài khoản
-                                            thường
-                                            <input type="hidden" name="displaytkthuong" id="displaytkthuong" value="">
-                                        </div>
-                                        <div class="col-xs-4 col-md-2">
-                                            <input type="checkbox" id="tksuper" name="isSuper" value="0"> Super Admin
-                                            <input type="hidden" name="displaytksuper" id="displaytksuper" value="">
-                                        </div>
-                                        <div class="col-xs-3 col-md-6">
-                                            <?php echo form_error('isSuper') ?>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-md-2">
                                             <label for="exampleInputEmail1">Hiển thị:</label>
                                         </div>
                                         <div class="col-xs-3 col-md-2">

@@ -1,83 +1,107 @@
 <!-- head -->
 
-<!-- head -->
+<div id="editGroupUser" style="display:none;">
 
-<div class="content-wrapper">
-    <?php if ($admin_info->Status == "A"): ?>
-        <section class="content-header">
-            <h1>
-                Cập nhật nhóm người dùng
-            </h1>
-        </section>
-        <section class="content">
-            <div class="row">
-
-                <div class="col-md-12">
-                    <div class="box box-body">
-                        <form id="form" class="form" enctype="multipart/form-data" method="post" action="">
-                            <div class="box-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-md-2">
-                                            <label for="exampleInputEmail1">Tên nhóm:</label>
-                                        </div>
-                                        <div class="col-xs-6 col-md-4">
-                                            <input type="text" class="form-control" id="param_name" value="<?php echo $info->Name?>" name="name">
-                                        </div>
-                                        <div class="col-xs-3 col-md-6">
-                                            <label style="color: red"><?php echo form_error('name') ?></label>
-                                        </div>
+    <section class="content-header">
+        <h1>
+            Cập nhật nhóm người dùng
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-body">
+                    <form id="formEditGroupUser" class="form">
+                        <div class="box-body">
+                            <div class="form-group" style="float: right">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <a href="<?php echo admin_url('groupuser') ?>" class="btn btn-danger">
+                                                        <span class="glyphicon glyphicon-remove">
+                                                        </span>
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-md-2">
-                                            <label for="exampleInputEmail1">Ghi chú:</label>
-                                        </div>
-                                        <div class="col-xs-6 col-md-4">
-                                            <input type="text" class="form-control"
-                                                   value="<?php echo $info->Description?>" id="param_username" name="description">
-                                        </div>
-                                        <div class="col-xs-3 col-md-6">
-                                            <label style="color: red"><?php echo form_error('description') ?></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-md-2">
-                                            <label for="exampleInputEmail1">Phân quyền:</label>
-                                        </div>
-                                        <div class="col-xs-6 col-md-4">
-                                            <a href="<?php echo admin_url('groupuser/role/'.$info->Id)?>" style="color: #0000ff;font-weight: bold">Phân quyền</a>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-md-2">
-                                        </div>
-                                        <div class="col-xs-6 col-md-4">
-                                            <input type="submit" class="btn bg-purple" value="Cập nhật">
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-3 col-xs-12">
+                                        <label for="exampleInputEmail1">Tên nhóm:</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" id="nameEditGroup"
+                                               value="" name="nameGroup" placeholder="Nhập tên nhóm người dùng">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-3 col-xs-12">
+                                        <label for="exampleInputEmail1">Ghi chú:</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" id="descriptionEdit"
+                                               value="" name="description" placeholder="Nhập ghi chú">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-3 col-xs-12">
+                                    </div>
+                                    <div class="col-md-6 col-sm-9 col-xs-12">
+                                        <a style="color: blue;font-weight: 600;font-size: 18px" onclick="redirectPageRoleGroup()">
+                                            Phân quyền
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-3 col-xs-12">
+                                    </div>
+                                    <div class="col-md-6 col-sm-9 col-xs-12">
+                                        <button class="btn bg-purple">
+                                            Cập nhật
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="idGroup">
+                        </div>
+
+                    </form>
                 </div>
+
             </div>
-        </section>
-    <?php else : ?>
-        <section class="content-header">
-            <h1>
-                Bạn không được phân quyền
-            </h1>
-        </section>
-    <?php endif ?>
+        </div>
+    </section>
 </div>
+
+<script>
+    $(function () {
+        $("#formEditGroupUser").validate({
+            errorClass: "validateError",
+            ignore: [],
+            debug: false,
+            rules: {
+                nameGroup: {
+                    required: true
+                },
+            },
+            // Specify the validation error messages
+            messages: {
+                nameGroup: "Vui lòng nhập tên nhóm người dùng",
+            },
+            submitHandler: function (form) {
+                var id = $("#idGroup").val();
+                editGroupUser(id)
+                return false;
+            }
+        });
+
+    });
+</script>

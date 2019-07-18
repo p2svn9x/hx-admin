@@ -2,11 +2,18 @@
 
 Class Groupuser extends MY_Controller
 {
+    private $accessToken;
+    private $nickName;
+    private $status;
+
     function __construct()
     {
         parent::__construct();
         $this->load->model('groupuser_model');
         $this->load->model('menurole_model');
+        $this->accessToken = $this->session->userdata('accessToken');
+        $this->nickName = $this->session->userdata('nick_name');
+        $this->status = $this->session->userdata('user_status');
 
 
     }
@@ -47,14 +54,18 @@ Class Groupuser extends MY_Controller
         );
         $checkName = $this->checkGroupName($name);
         header('Content-Type: application/json');
-        if ($checkName == false) {
-            $this->session->set_flashdata('messageError', 'Tên nhóm người dùng đã rồn tại');
-        } else {
-            if ($this->groupuser_model->create($data)) {
-                $this->session->set_flashdata('message', 'Thêm mới nhóm người dùng thành công');
+        if ($this->status == "A") {
+            if ($checkName == false) {
+                $this->session->set_flashdata('messageError', 'Tên nhóm người dùng đã rồn tại');
             } else {
-                $this->session->set_flashdata('messageError', 'Lỗi hệ thống. Vui lòng thử lại !!!');
+                if ($this->groupuser_model->create($data)) {
+                    $this->session->set_flashdata('message', 'Thêm mới nhóm người dùng thành công');
+                } else {
+                    $this->session->set_flashdata('messageError', 'Lỗi hệ thống. Vui lòng thử lại !!!');
+                }
             }
+        } else {
+            $this->session->set_flashdata('messageError', 'Bạn không được phân quyền');
         }
 
 
@@ -73,61 +84,51 @@ Class Groupuser extends MY_Controller
 
     function edit()
     {
-        $admin_login = $this->session->userdata('user_id_login');
-        $admin_info = $this->admin_model->get_info($admin_login);
-        // $url= substr($_SERVER['REQUEST_URI'],18,strlen($_SERVER['REQUEST_URI'])-18);
-        $url = $this->router->fetch_class();
-        //lay id cua quan tri vien can chinh sua
-        $id = $this->uri->rsegment('3');
+        $id = $this->input->get('id');
         $id = intval($id);
-        $this->load->library('form_validation');
-        $this->load->helper('form');
-        //lay thong cua quan trị viên
         $info = $this->groupuser_model->get_info($id);
-        if (!$info) {
-            $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
-            redirect(admin_url('groupuser'));
-        }
-        $this->data['info'] = $info;
-        if ($this->input->post()) {
-            $this->form_validation->set_rules('name', 'Tên nhóm', 'required');
-            if ($this->form_validation->run()) {
-                $name = $this->input->post('name');
-                $description = $this->input->post('description');
-                $data = array(
-                    'name' => $name,
-                    'description' => $description,
-                );
+
+        $name = $this->input->get('name');
+        $description = $this->input->get('des');
+        $data = array(
+            'name' => $name,
+            'description' => $description,
+        );
+        if ($this->status == "A") {
+            if (!$info) {
+                $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
+            } else {
                 if ($this->groupuser_model->update($id, $data)) {
                     //tạo ra nội dung thông báo
                     $this->session->set_flashdata('message', 'Cập nhật dữ liệu thành công');
                 } else {
                     $this->session->set_flashdata('message', 'Không cập nhật được');
                 }
-                //chuyen tới trang danh sách quản trị viên
-                redirect(admin_url('groupuser'));
             }
+        } else {
+            $this->session->set_flashdata('messageError', 'Bạn không được phân quyền');
         }
-        $this->data['temp'] = 'admin/groupuser/edit';
-        $this->load->view('admin/main', $this->data);
+
+
     }
 
 //xóa dữ liệu nhóm người dùng
     function delete()
     {
-        $id = $this->uri->rsegment('3');
+        $id = $this->input->get('id');
         $id = intval($id);
-        //lay thong tin cua quan tri vien
         $info = $this->groupuser_model->get_info($id);
-        if (!$info) {
-            $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
-            redirect(admin_url('groupuser'));
-        }
-        //thuc hiện xóa
-        $this->groupuser_model->delete($id);
+        if ($this->status == "A") {
+            if (!$info) {
+                $this->session->set_flashdata('message', 'Không tồn tại nhóm người dùng');
+            } else {
+                $this->groupuser_model->delete($id);
+                $this->session->set_flashdata('message', 'Xóa dữ liệu thành công');
+            }
 
-        $this->session->set_flashdata('message', 'Xóa dữ liệu thành công');
-        redirect(admin_url('groupuser'));
+        } else {
+            $this->session->set_flashdata('messageError', 'Bạn không được phân quyền');
+        }
     }
 
     function role()

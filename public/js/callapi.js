@@ -86,7 +86,36 @@ function getListUser() {
 function deleteGroup(id) {
     if (!confirm('Bạn có chắc chắn muốn xóa?')) {
         return false;
-    }else{
+    } else {
+        axios.get(baseUrl + "groupuser/delete?id=" + id)
+            .then(function (response) {
+                location.href = baseUrl + 'groupuser'
+            })
+            .catch(function (error) {
+                // handle error
+                errorThongBao(error)
+            })
+            .finally(function () {
+                // always executed
+            });
     }
+
+}
+
+function editGroupUser(id) {
+    var name = $('#nameEditGroup').val();
+    var des = $('#descriptionEdit').val();
+    axios.get(baseUrl + "groupuser/edit?id=" + id + "&name=" + name + "&des=" + des)
+        .then(function (response) {
+            location.href = baseUrl + 'groupuser'
+        })
+        .catch(function (error) {
+            // handle error
+            errorThongBao(error)
+        })
+        .finally(function () {
+            // always executed
+        });
+
 
 }

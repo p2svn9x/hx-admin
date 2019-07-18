@@ -36,17 +36,15 @@ Class Menu extends MY_Controller
         $this->data['list'] = $list;
         //neu ma co du lieu post len thi kiem tra
         if ($this->input->post()) {
-             $this->form_validation->set_rules('name', 'Tên menu', 'required');
+            $this->form_validation->set_rules('name', 'Tên menu', 'required');
             $this->form_validation->set_rules('param', 'Số thứ tự', 'required');
             $this->form_validation->set_rules('link', 'Đường dẫn', 'required');
-            //nhập liệu chính xác
             if ($this->form_validation->run()) {
                 //them vao csdl
                 $name = $this->input->post('name');
                 $param = $this->input->post('param');
                 $link = $this->input->post('link');
                 $parent_id = $this->input->post('ParentID');
-                $issuper = $this->input->post('displaytksuper');
                 if (isset($_POST['Status'])) {
                     $status = 'A';
                 } else {
@@ -57,7 +55,6 @@ Class Menu extends MY_Controller
                     'param' => $param,
                     'link' => $link,
                     'parrent_id' => $parent_id,
-                    'isSuper' => $issuper,
                     'Status' => $status,
                 );
                 if ($this->menu_model->create($data)) {
@@ -66,13 +63,13 @@ Class Menu extends MY_Controller
                 } else {
                     $this->session->set_flashdata('message', 'Không thêm được');
                 }
-                //chuyen tới trang danh sách quản trị viên
                 redirect(admin_url('menu'));
+            }
         }
-		}
         $this->data['temp'] = 'admin/menu/add';
         $this->load->view('admin/main', $this->data);
     }
+
     function edit()
     {
         //lay id cua quan tri vien can chinh sua
@@ -99,9 +96,6 @@ Class Menu extends MY_Controller
                 $param = $this->input->post('param');
                 $link = $this->input->post('link');
                 $parent_id = $this->input->post('ParentID');
-                $isthuong = $this->input->post('displaytkthuong');
-                $issuper = $this->input->post('displaytksuper');
-
                 if (isset($_POST['Status'])) {
                     $status = 'A';
                 } else {
@@ -112,7 +106,6 @@ Class Menu extends MY_Controller
                     'param' => $param,
                     'link' => $link,
                     'parrent_id' => $parent_id,
-                    'isSuper' => $issuper,
                     'Status' => $status,
                 );
 
@@ -198,7 +191,7 @@ Class Menu extends MY_Controller
             $str .= "<tr>";
             $str .= "<td class=\"textC\">$stt</td>";
             $str .= " <td><span class=\"tipS\" style='color: #008000;font-weight: bold;' original-title=" . $category->Name . "> $category->Name</span></td>";
-			 $str .= " <td><span class=\"tipS\" original-title=" . $category->Param . "> $category->Param</span></td>";
+            $str .= " <td><span class=\"tipS\" original-title=" . $category->Param . "> $category->Param</span></td>";
             $str .= " <td class=\"option\">";
             $str .= "           <a href=" . admin_url('menu/edit/' . $category->id) . " class=\"tipS \" original-title=\"Chỉnh sửa\">";
             $str .= "      <img src=" . public_url('admin') . "/images/icons/color/edit.png>";
@@ -226,7 +219,7 @@ Class Menu extends MY_Controller
                 //kiem tra con parent hay ko
                 $str .= "<td class=\"textC\">$stt</td>";
                 $str .= " <td><span class=\"tipS\"  original-title=" . $sub_category->Name . "> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;$sub_category->Name</span></td>";
-				 $str .= " <td><span class=\"tipS\" original-title=" . $sub_category->Param . "> $sub_category->Param</span></td>";
+                $str .= " <td><span class=\"tipS\" original-title=" . $sub_category->Param . "> $sub_category->Param</span></td>";
                 $str .= " <td class=\"option\">";
                 $str .= "           <a href=" . admin_url('menu/edit/' . $sub_category->id) . " class=\"tipS \" original-title=\"Chỉnh sửa\">";
                 $str .= "      <img src=" . public_url('admin') . "/images/icons/color/edit.png>";
@@ -267,12 +260,13 @@ Class Menu extends MY_Controller
                     $str .= $category->Name;
                     $str .= "</option>";
                 }
-                if (!empty($sub_categorys)){
-                foreach ($sub_categorys as $sub_category) {
-                    $str .= "<option value='$sub_category->id'>";
-                    $str .= "........... " . $sub_category->Name;
-                    $str .= "</option>";
-                }}
+                if (!empty($sub_categorys)) {
+                    foreach ($sub_categorys as $sub_category) {
+                        $str .= "<option value='$sub_category->id'>";
+                        $str .= "........... " . $sub_category->Name;
+                        $str .= "</option>";
+                    }
+                }
             }
         } else {
             $str .= "<option value='-1' >Root</option>";

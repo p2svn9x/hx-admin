@@ -51,6 +51,7 @@
     </div>
 
     <?php $this->load->view('admin/groupuser/add') ?>
+    <?php $this->load->view('admin/groupuser/edit') ?>
 </div>
 
 <script>

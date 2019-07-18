@@ -25,6 +25,7 @@ function successThongBao(text) {
     }, 1000);
 
 }
+
 function commaSeparateNumber(val) {
     while (/(\d+)(\d{3})/.test(val.toString())) {
         val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
@@ -36,25 +37,25 @@ function convertDate(data) {
 
     var date = new Date(data);
     var day = date.getDate();
-    if(day<10){
-        day = '0'+day.toString()
+    if (day < 10) {
+        day = '0' + day.toString()
     }
     var month = date.getMonth() + 1;
-    if(month<10){
-        month = '0'+month.toString()
+    if (month < 10) {
+        month = '0' + month.toString()
     }
     var year = date.getFullYear();
     var hour = date.getHours();
-    if(hour<10){
-        hour = '0'+hour.toString()
+    if (hour < 10) {
+        hour = '0' + hour.toString()
     }
     var minit = date.getMinutes();
-    if(minit<10){
-        minit = '0'+minit.toString()
+    if (minit < 10) {
+        minit = '0' + minit.toString()
     }
     var second = date.getSeconds();
-    if(second<10){
-        second = '0'+second.toString()
+    if (second < 10) {
+        second = '0' + second.toString()
     }
 
     var timeNow = day + '/' + month + '/' + year + " " + hour + ':' + minit + ':' + second
@@ -117,20 +118,35 @@ function chartCcu(ccu, timeLabel) {
     });
 }
 
-function showPageAddGroupUser(){
+function showPageAddGroupUser() {
     $("#addGroupUser").css("display", "block");
     $("#groupUser").css("display", "none");
 }
 
-function itemGroupUser(stt, name,des,id) {
+function showPageEditGroupUser(name, des, id) {
+    $("#editGroupUser").css("display", "block");
+    $("#groupUser").css("display", "none");
+    $("#nameEditGroup").val(name);
+    $("#descriptionEdit").val(des);
+    $("#idGroup").val(id);
+
+}
+
+function redirectPageRoleGroup() {
+    var id = $("#idGroup").val();
+    alert(baseUrl+"groupuser/role/"+parseInt(id));
+    location.href = baseUrl+"groupuser/role/"+parseInt(id)
+}
+
+function itemGroupUser(stt, name, des, id) {
     var rs = "";
     rs += "<tr>";
     rs += "<td  class=\"text-center\">" + stt + "</td>";
     rs += "<td>" + name + "</td>";
     rs += "<td>" + des + "</td>";
     rs += "<td class='text-center'>" +
-        "<a title='Chỉnh sửa' class='btn btn-success'><span class='glyphicon glyphicon-edit'></span></a>" +  "     "+
-        "<a title='Xóa' class='btn btn-danger' onclick='deleteGroup()'><span class='glyphicon glyphicon-remove' ></span></a>" +
+        "<a title='Chỉnh sửa' class='btn btn-success' onclick=\"showPageEditGroupUser('" + name + "','" + des + "','" + id + "');\"><span class='glyphicon glyphicon-edit'></span></a>" + "     " +
+        "<a title='Xóa' class='btn btn-danger' onclick='deleteGroup(" + id + ")'><span class='glyphicon glyphicon-remove' ></span></a>" +
         "</td>"
     rs += "</tr>";
     return rs;

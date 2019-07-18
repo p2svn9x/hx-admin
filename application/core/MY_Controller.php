@@ -20,6 +20,7 @@ Class MY_Controller extends CI_Controller
                     $this->data['money_name']  = "Boa";
                     if ($admin_login) {
                         $this->data['nick_name'] = $this->session->userdata('nick_name');
+                        $this->data['user_status'] = $this->session->userdata('user_status');
                         $this->load->model('admin_model');
                         $this->load->model('userrole_model');
                         $this->load->model('menurole_model');
