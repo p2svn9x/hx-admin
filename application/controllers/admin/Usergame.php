@@ -19,18 +19,9 @@ Class Usergame extends MY_Controller
         $this->data['temp'] = 'admin/usergame/index';
         $this->load->view('admin/main', $this->data);
     }
-    function indexajax(){
-        $phone = urlencode($this->input->post("phone"));
-        $fieldname = urlencode($this->input->post("fieldname"));
-        $timkiemtheo =  urlencode($this->input->post("timkiemtheo"));
-        $typetimkiem =  $this->input->post("typetimkiem");
-        $pages = $this->input->post("pages");
-        $datainfo = $this->curl->simple_get($this->config->item('api_backend2').'2005&m=' . $phone . '&tysh=' . $typetimkiem.'&vl='.$fieldname.'&tys='.$timkiemtheo.'&p='.$pages);
-        if(isset($datainfo)) {
-            echo $datainfo;
-        }else{
-            echo "Bạn không được hack";
-        }
+    function blockChat(){
+        $this->data['temp'] = 'admin/usergame/blockchat';
+        $this->load->view('admin/main', $this->data);
     }
 	
 }

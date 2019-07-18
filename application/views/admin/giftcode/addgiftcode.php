@@ -89,6 +89,7 @@
                                         </div>
                                         <div class="col-md-6 col-sm-9 col-xs-12">
                                             <input type="text" class="form-control" id="otpGC" name="otpGC"
+                                                   maxlength="6"
                                                    placeholder="Nhập OTP">
                                         </div>
                                     </div>
@@ -110,40 +111,60 @@
                 </div>
             </div>
         </section>
-        <script>
-            $(document).ready(function () {
-                $("#formAddGiftcode").validate({
-                    errorClass: "validateError",
-                    ignore: [],
-                    debug: false,
-                    rules: {
-                        typeGC: {
-                            required: true
-                        },
-                        typeGC: {
-                            required: true
-                        },
-                        typeGC: {
-                            required: true
-                        },
-                        typeGC: {
-                            required: true
-                        },
-                        typeGC: {
-                            required: true
-                        },
-                    },
-                    // Specify the validation error messages
-                    messages: {
-                        nameGroup: "Vui lòng nhập tên nhóm người dùng",
-                    },
-                    submitHandler: function (form) {
-
-                    }
-                });
-
-            });
-
-        </script>
+        <?php $this->load->view('admin/common/modal') ?>
     <?php endif; ?>
 </div>
+<script>
+    $(function () {
+        $("#formAddGiftcode").validate({
+            errorClass: "validateError",
+            ignore: [],
+            debug: false,
+            rules: {
+                typeGC: {
+                    required: true
+                },
+                amountGC: {
+                    required: true,
+                    number: true,
+                    max: 100,
+
+                },
+                expiryDateGC: {
+                    required: true,
+                    number: true,
+                },
+                priceGC: {
+                    required: true
+                },
+                otpGC: {
+                    required: true
+                },
+            },
+            // Specify the validation error messages
+            messages: {
+                typeGC: "Vui lòng nhập mã Code chỉ bao gồm 3 kí tự chữ",
+                amountGC: {
+                    required: "Vui lòng nhập số lượng Giftcode",
+                    number: "Số lượng Giftcode phải là số",
+                    max: "Số lượng Giftcode tối đa là 100",
+                },
+
+                expiryDateGC: {
+                    required: "Vui lòng nhập giới hạn ngày sử dụng Giftcode",
+                    number: "Giới hạn ngày sử dụng Gftcode phải là số",
+                },
+                priceGC: "Vui lòng nhập mệnh giá Giftcode",
+                otpGC: "Vui lòng nhập Mã OTP",
+            },
+            submitHandler: function (form) {
+                var price = $("#priceGC").val();
+                var amount = $("#amountGC").val();
+                    openModalAddGiftcode(price,amount);
+                }
+        })
+        ;
+
+    });
+
+</script>

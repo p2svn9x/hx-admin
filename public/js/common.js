@@ -6,7 +6,7 @@ var timeOutApi = 10000;
 
 function errorThongBao(text) {
 
-    $(".loader").css("display", "none");
+   // $(".loader").css("display", "none");
     $('.error').addClass('alert alert-danger').html(text);
 
     setTimeout(function () {
@@ -15,9 +15,11 @@ function errorThongBao(text) {
 
 }
 
+
+
 function successThongBao(text) {
 
-    $(".loader").css("display", "none");
+   // $(".loader").css("display", "none");
     $('.error').addClass('alert alert-success').html(text);
 
     setTimeout(function () {
@@ -26,6 +28,28 @@ function successThongBao(text) {
 
 }
 
+function errorThongBaoPopup(text) {
+
+   // $(".loader").css("display", "none");
+    $('.errorModal').addClass('alert alert-danger').html(text);
+
+    setTimeout(function () {
+        $('.errorModal').removeClass('alert alert-danger').html('');
+    }, 1000);
+
+}
+
+
+function successThongBaoPopup(text) {
+
+   // $(".loader").css("display", "none");
+    $('.errorModal').addClass('alert alert-success').html(text);
+
+    setTimeout(function () {
+        $('.errorModal').removeClass('alert alert-success').html('');
+    }, 1000);
+
+}
 function commaSeparateNumber(val) {
     while (/(\d+)(\d{3})/.test(val.toString())) {
         val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
@@ -152,4 +176,72 @@ function itemGroupUser(stt, name, des, id) {
     return rs;
 
 }
+
+function openModalAddGiftcode(price, amount) {
+    $('#modalAddGiftcode').modal('show');
+    $('#amoutGiftcode').html(amount)
+    $('#priceGiftcode').html(commaSeparateNumber(price));
+
+}
+
+function initDateTimePicker() {
+    $('.datetimepicker').datetimepicker({
+        format: 'DD/MM/YYYY HH:mm:ss',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+}
+
+
+function getTimestamp(date) {
+    var arrDateTime = date.split(" ");
+    var arrDate = arrDateTime[0].split('/')
+    var newDate = arrDate[1].toString() + '/' + arrDate[0] + '/' + arrDate[2] + ' ' + arrDateTime[1]
+    var timeStamp = (new Date(newDate)).getTime()
+    return timeStamp;
+
+}
+
+function itemListGiftcode(stt, giftcode, nickname, pricegc, status, timecreate, timeuser,timeexprate,code,campain) {
+    var rs = "";
+    rs += "<tr>";
+    rs += "<td >" + stt + "</td>";
+    rs += "<td>" + giftcode + "</td>";
+    if (nickname == null) {
+        rs += "<td>" + "" + "</td>";
+    } else {
+        rs += "<td>" + nickname + "</td>";
+    }
+
+    rs += "<td>" + commaSeparateNumber(pricegc) + "</td>";
+    if (status == 0) {
+        rs += "<td>" + "Chưa dùng" + "</td>";
+    } else {
+        rs += "<td>" + "Đã dùng" + "</td>";
+    }
+    rs += "<td>" + convertDate(timecreate) + "</td>";
+    if (timeuser == 0) {
+        rs += "<td>" + "" + "</td>";
+    } else {
+        rs += "<td>" + convertDate(timeuser) + "</td>";
+    }
+
+    rs += "<td>" + convertDate(timeexprate) + "</td>";
+    rs += "<td>" + code + "</td>";
+    rs += "<td>" + campain + "</td>";
+    rs += "</tr>";
+    return rs;
+}
+
+
+
 

@@ -9,7 +9,7 @@
 
         <section class="content-header">
             <h1>
-                Danh sách giftcode
+                Tìm kiếm giftcode
             </h1>
         </section>
         <section class="content">
@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-xs-12">
-                                        <label for="exampleInputEmail1">Lọc theo</label>
+                                        <label for="exampleInputEmail1">Giftcode</label>
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-xs-12">
                                         <select class="form-control select2 select2-hidden-accessible" id="typeDate"

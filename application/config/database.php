@@ -75,9 +75,13 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn' => '',
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '1234',
+//    'hostname' => 'localhost',
+//    'username' => 'root',
+//    'password' => '1234',
+//    'database' => 'db_admin',
+    'hostname' => '127.0.0.1',
+    'username' => 'admin',
+    'password' => 'JDFH&^445as',
     'database' => 'db_admin',
     'port' => '3306',
     'dbdriver' => 'mysqli',
